@@ -1,0 +1,45 @@
+<mat-toolbar color="primary">
+  <span>Art Institute of Chicago API</span>
+  <button mat-button (click)="toggleGridColumns()" fxHide.lt-md>
+    <span *ngIf="gridColumns === 4">Three Columns</span>
+    <span *ngIf="gridColumns === 3">Four Columns</span>
+  </button>
+</mat-toolbar>
+
+<nav class="navbar">
+  <input class ="form-control" type="text" name="firstName"[(ngModel)]="firstName"(ngModelChange)="Search()"
+    placeholder="Enter id to search">
+</nav>
+
+
+
+<div class="content"  >
+  <pagination-controls (pageChange) ="p =$event"></pagination-controls>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let num of users$ | async | paginate:{itemsPerPage:12,currentPage:p}">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>ID:{{num.id}}</mat-card-title>
+          <mat-card-subtitle>{{num.title}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://www.artic.edu/iiif/2/{{num.image_id}}/full/200,/0/default.jpg" />
+        
+        <mat-card-content>
+          <p>
+            {{num.artist_title}}
+          </p>
+          <p>
+            {{num.date_display}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <pagination-controls (pageChange) ="p =$event"></pagination-controls>
+</div>
+
+
